@@ -33,27 +33,31 @@ import java.awt.Color;
  */
 public class PlotColor {
 
-  private static final Color[] colors = {
-    new Color(31, 119, 181),
-    new Color(251, 127, 15),
-    new Color(46, 161, 47),
-    new Color(215, 42, 44),
-    new Color(148, 104, 189),
-    new Color(141, 86, 75),
-    new Color(227, 119, 194),
-    new Color(127, 127, 127),
-    new Color(188, 189, 35),
-    new Color(44, 193, 209)
-  };
+    private PlotColor() {
+    }
 
-  /**
-   * Get the color associated with the given index.
-   *
-   * @param index The index of the color to retrieve.
-   * @return The color associated with the index.
-   */
-  public static Color getColor(int indx) {
-    return colors[indx];
-  }
+    private static final Color[] colors = {
+            new Color(31, 119, 181),
+            new Color(251, 127, 15),
+            new Color(46, 161, 47),
+            new Color(215, 42, 44),
+            new Color(148, 104, 189),
+            new Color(141, 86, 75),
+            new Color(227, 119, 194),
+            new Color(127, 127, 127),
+            new Color(188, 189, 35),
+            new Color(44, 193, 209)
+    };
+
+    /**
+     * Get the color associated with the given index.
+     *
+     * @param index
+     *            The index of the color to retrieve.
+     * @return The color associated with the index.
+     */
+    public static Color getColor(int indx) {
+        return colors[indx];
+    }
 
 }

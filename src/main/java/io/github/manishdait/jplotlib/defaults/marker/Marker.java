@@ -30,20 +30,20 @@ package io.github.manishdait.jplotlib.defaults.marker;
  * 
  */
 public enum Marker {
-    
-  /**
-   * No marker.
-   */
-  NONE,
 
-  /**
-   * Circular marker.
-   */
-  CIRCLE,
+    /**
+     * No marker.
+     */
+    NONE,
 
-  /**
-   * Square marker.
-   */
-  SQUARE;
+    /**
+     * Circular marker.
+     */
+    CIRCLE,
+
+    /**
+     * Square marker.
+     */
+    SQUARE;
 
 }

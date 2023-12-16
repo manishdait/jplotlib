@@ -31,31 +31,25 @@ import java.awt.Color;
  * 
  */
 public enum LibColor {
-  
-  BLUE(new Color(31, 119, 181)),
-  ORANGE(new Color(251, 127, 15)),
-  GREEN(new Color(46, 161, 47)),
-  RED(new Color(215, 42, 44)),
-  PURPLE(new Color(148, 104, 189)),
-  BROWN(new Color(141, 86, 75)),
-  PINK(new Color(227, 119, 194)),
-  GREY(new Color(127, 127, 127)),
-  LIME(new Color(188, 189, 35)),
-  SKY(new Color(44, 193, 209));
 
-  private Color color;
+    BLUE(new Color(31, 119, 181)), ORANGE(new Color(251, 127, 15)), GREEN(new Color(46, 161, 47)), RED(
+            new Color(215, 42, 44)), PURPLE(new Color(148, 104, 189)), BROWN(new Color(141, 86, 75)), PINK(
+                    new Color(227, 119, 194)), GREY(
+                            new Color(127, 127, 127)), LIME(new Color(188, 189, 35)), SKY(new Color(44, 193, 209));
 
-  LibColor(Color color) {
-    this.color = color;
-  }
+    private Color color;
 
-  /**
-   * Get the color associated with the LibColor.
-   *
-   * @return The color.
-   */
-  public Color getColor() {
-    return this.color;
-  }
+    LibColor(Color color) {
+        this.color = color;
+    }
+
+    /**
+     * Get the color associated with the LibColor.
+     *
+     * @return The color.
+     */
+    public Color getColor() {
+        return this.color;
+    }
 
 }

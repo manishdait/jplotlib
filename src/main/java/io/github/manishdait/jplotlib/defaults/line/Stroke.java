@@ -30,14 +30,14 @@ package io.github.manishdait.jplotlib.defaults.line;
  */
 public enum Stroke {
 
-  /**
-   * No line stroke.
-   */
-  NONE,
+    /**
+     * No line stroke.
+     */
+    NONE,
 
-  /**
-   * Dashed line stroke.
-   */
-  DASHED;
+    /**
+     * Dashed line stroke.
+     */
+    DASHED;
 
 }
