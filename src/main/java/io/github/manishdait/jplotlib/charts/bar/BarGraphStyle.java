@@ -33,7 +33,7 @@ import java.awt.Color;
  * JPlotLib library.
  * 
  */
-public class BarGraphStyle {
+class BarGraphStyle {
     
     private Color color;
 

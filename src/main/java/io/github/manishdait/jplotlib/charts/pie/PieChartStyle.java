@@ -32,7 +32,7 @@ import java.awt.Color;
  * within the JPlotLib library.
  * 
  */
-public class PieChartStyle {
+class PieChartStyle {
 
     private Color[] color;
 

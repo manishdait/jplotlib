@@ -33,7 +33,7 @@ import io.github.manishdait.jplotlib.defaults.marker.Marker;
  * a scatter chart.
  * 
  */
-public class ScatterChartStyle {
+class ScatterChartStyle {
     private Color color;
     private int[] scale;
     private Marker marker;

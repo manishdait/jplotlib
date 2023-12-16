@@ -35,7 +35,7 @@ import io.github.manishdait.jplotlib.defaults.marker.Marker;
  * It includes settings for markers, colors, line styles, and widths.
  * 
  */
-public class LineChartStyle {
+class LineChartStyle {
 
     private Marker marker;
     private Color color;
