@@ -105,9 +105,10 @@ public class ChartPanel extends JPanel {
         this.yLabel.setText(this.axisConfiguration.getyLabel());
         this.add(yLabel, BorderLayout.LINE_START);
         
+        // Build and draw axis
         new Axis(g, this, axisConfiguration).drawAxis();
         setGraph(this.graph);
-        // Build and draw axis
+        
         // Plot and draw graph
         plotGraph();
         
