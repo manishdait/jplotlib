@@ -283,8 +283,11 @@ public final class Jplotlib implements
 
   @Override
   public PieChart pie(double[] dataPoints, String[] labels) {
-    if (dataPoints == null) {
+    if (dataPoints == null || labels == null) {
       throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
+    if (labels.length != dataPoints.length) {
+      throw new JplotlibError(ErrorConstants.MISSMATCH_LABELDATA_LENGTH_ERROR);
     }
     setAxisType(AxisType.PIE);
     PieChart pieChart = new PieChart(new GraphData(labels, dataPoints));
