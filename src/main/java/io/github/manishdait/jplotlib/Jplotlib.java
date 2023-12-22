@@ -80,14 +80,15 @@ public final class Jplotlib implements
   protected Config axisConfiguration;
   protected List<Graph> graphs;
 
+  private boolean isPlotable;
+
   public Jplotlib() {
     this.axisConfiguration = new Config();
     this.graphs = new ArrayList<>();
   }
 
   public final void show() {
-    if (((axisConfiguration.getTotalXLength() == 0 || axisConfiguration.getTotalYLength() == 0)
-        && axisConfiguration.getBarLabelLen() == 0) && !axisConfiguration.getAxisType().equals(AxisType.PIE)) {
+    if (!isPlotable) {
       return;
     }
     this.window = new Window(this.axisConfiguration, this.graphs);
@@ -117,8 +118,8 @@ public final class Jplotlib implements
   }
 
   private void setAxisType(AxisType axisType) {
-    if (axisConfiguration.getAxisType() == null ||
-        axisConfiguration.getAxisType().getPriority() < axisType.getPriority()) {
+    if (axisConfiguration.getAxisType() == null
+        || axisConfiguration.getAxisType().getPriority() < axisType.getPriority()) {
       axisConfiguration.setAxisType(axisType);
     }
   }
@@ -194,6 +195,7 @@ public final class Jplotlib implements
     setAxisParameters(xPoints, yPoints);
     LineChart lineChart = new LineChart(new CartesianData(xPoints, yPoints));
     graphs.add(lineChart);
+    isPlotable = true;
     return lineChart;
   }
 
@@ -209,6 +211,7 @@ public final class Jplotlib implements
     setAxisParameters(xPoints, yPoints);
     LineChart lineChart = new LineChart(new CartesianData(xPoints, yPoints));
     graphs.add(lineChart);
+    isPlotable = true;
     return lineChart;
   }
 
@@ -226,6 +229,7 @@ public final class Jplotlib implements
     setAxisParameters(xPoints, yPoints);
     ScatterChart scatterChart = new ScatterChart(new CartesianData(xPoints, yPoints));
     graphs.add(scatterChart);
+    isPlotable = true;
     return scatterChart;
   }
 
@@ -243,6 +247,7 @@ public final class Jplotlib implements
     setAxisParameters(labels, points, false);
     BarGraph barGraph = new BarGraph(new GraphData(labels, points));
     graphs.add(barGraph);
+    isPlotable = true;
     return barGraph;
   }
 
@@ -258,6 +263,7 @@ public final class Jplotlib implements
     setAxisParameters(labels, points, true);
     BarGraph barGraph = new BarGraph(new GraphData(labels, points));
     graphs.add(barGraph);
+    isPlotable = true;
     return barGraph;
   }
 
@@ -271,6 +277,7 @@ public final class Jplotlib implements
     setAxisType(AxisType.PIE);
     PieChart pieChart = new PieChart(new GraphData(null, dataPoints));
     graphs.add(pieChart);
+    isPlotable = true;
     return pieChart;
   }
 }
