@@ -25,26 +25,21 @@
 package io.github.manishdait.jplotlib.error;
 
 /**
- * The ArrayLengthMissMatchException is a custom runtime exception that is
- * thrown when there is a mismatch in the lengths of arrays during data plotting
- * in Jplotlib.
- * 
- * This exception indicates that the input arrays used for plotting do not have
- * the same length, which is a requirement for plotting data points correctly.
- * 
+ * The JplotlibError is a custom runtime exception that is thrown when there is
+ * any issue for data plotting in Jplotlib. 
  * 
  */
 
-public class ArrayLengthMissMatchException extends RuntimeException {
+public class JplotlibError extends RuntimeException {
 
   /**
-   * Constructs a new ArrayLengthMissMatchException with the specified detail 
+   * Constructs a new JplotlibError with the specified detail
    * message.
    *
    * @param message the detail message.
    */
 
-  public ArrayLengthMissMatchException(String message) {
+  public JplotlibError(String message) {
     super(message);
   }
 
