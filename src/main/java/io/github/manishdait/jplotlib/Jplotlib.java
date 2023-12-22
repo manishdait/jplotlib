@@ -67,7 +67,7 @@ import io.github.manishdait.jplotlib.ui.Window;
  * (coordinates or pieData).
  * 
  * @author Manish Dait
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 public final class Jplotlib implements
@@ -276,6 +276,18 @@ public final class Jplotlib implements
     }
     setAxisType(AxisType.PIE);
     PieChart pieChart = new PieChart(new GraphData(null, dataPoints));
+    graphs.add(pieChart);
+    isPlotable = true;
+    return pieChart;
+  }
+
+  @Override
+  public PieChart pie(double[] dataPoints, String[] labels) {
+    if (dataPoints == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
+    setAxisType(AxisType.PIE);
+    PieChart pieChart = new PieChart(new GraphData(labels, dataPoints));
     graphs.add(pieChart);
     isPlotable = true;
     return pieChart;

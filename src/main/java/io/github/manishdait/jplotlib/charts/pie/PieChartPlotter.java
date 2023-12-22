@@ -53,11 +53,11 @@ public class PieChartPlotter implements Plotter {
      * PieChart object.
      *
      * @param g
-     *            The Graphics object used for rendering.
+     *                 The Graphics object used for rendering.
      * @param context
-     *            The JPanel where the pie chart slices will be drawn.
+     *                 The JPanel where the pie chart slices will be drawn.
      * @param pieChart
-     *            The PieChart object containing data and style settings.
+     *                 The PieChart object containing data and style settings.
      */
     public PieChartPlotter(
             Graphics g,
@@ -71,10 +71,18 @@ public class PieChartPlotter implements Plotter {
     @Override
     public void draw() {
         double[] data = ((GraphData) pieChart.getValues()).getData();
+        String[] labels = ((GraphData) pieChart.getValues()).getLabels();
 
         this.g.setRenderingHint(
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
+
+        this.g.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        this.g.setRenderingHint(
+                RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
 
         int width = (context.getWidth()) / 2;
         int height = (context.getHeight()) / 2;
@@ -86,7 +94,7 @@ public class PieChartPlotter implements Plotter {
 
         sum = sum == 0 ? 1 : sum;
         double diff = 360 / sum;
-        int radius = Math.min(context.getHeight(), context.getWidth()) / 2 - 40;
+        int radius = Math.min(context.getHeight(), context.getWidth()) / 2 - 50;
 
         int prevAng = 0;
         Color[] color = pieChart.getStyle().getColor();
@@ -98,15 +106,21 @@ public class PieChartPlotter implements Plotter {
                 this.g.setColor(color[i]);
             }
 
+            int angle = (int) (data[i] * diff);
+
             this.g.fillArc(
                     width - radius,
                     height - radius,
                     radius * 2,
                     radius * 2,
                     prevAng,
-                    (int) (data[i] * diff));
+                    angle);
 
-            prevAng += (int) (data[i] * diff);
+            int midAngle = prevAng + angle / 2;
+
+            int[] labelDistance = findLabelDistance(angle, midAngle, width, height, radius);
+
+            prevAng += angle;
 
             if (i == data.length - 1 && prevAng != 360) {
                 this.g.fillArc(
@@ -117,7 +131,32 @@ public class PieChartPlotter implements Plotter {
                         prevAng,
                         360 - prevAng);
             }
+
+            if (labels != null) {
+                String label = labels[i];
+                if (labelDistance[0] < width) {
+                    labelDistance[0] = labelDistance[0] - label.length() * 8;
+                }
+                g.setColor(Color.black);
+                this.g.drawString(label, labelDistance[0], labelDistance[1]);
+
+            }
         }
+    }
+
+    private int[] findLabelDistance(int angle, int midAngle, int width, int height, int radius) {
+        int labelX = 0;
+        int labelY = 0;
+
+        // Calculate label position
+        if (angle < 180) {
+            labelX = (int) (width + (radius * 1.1 * Math.cos(Math.toRadians(midAngle))));
+            labelY = (int) (height - (radius * 1.1 * Math.sin(Math.toRadians(midAngle))));
+        } else {
+            labelX = (int) (width + (radius * 1.1 * Math.cos(Math.toRadians(midAngle))));
+            labelY = (int) (height + (radius * 1.1 * Math.sin(Math.toRadians(midAngle))));
+        }
+        return new int[] { labelX, labelY };
     }
 
 }

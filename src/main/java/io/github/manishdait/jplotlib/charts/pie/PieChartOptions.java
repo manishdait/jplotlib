@@ -36,11 +36,29 @@ public interface PieChartOptions {
      * Creates a pie chart with the given data points.
      *
      * @param dataPoints
-     *            An array of doubles representing the data points for the pie chart
-     *            slices.
+     *                   An array of doubles representing the data points for the
+     *                   pie chart
+     *                   slices.
      * @return PieChart A PieChart object representing a pie chart with the provided
      *         data points.
      */
     PieChart pie(double[] dataPoints);
+
+    /**
+     * Creates a pie chart with labeled segments using the given data points and
+     * labels.
+     * 
+     * @param dataPoints
+     *                   An array of doubles representing the data points for the
+     *                   pie chart slices.
+     * @param labels
+     *                   An array of Strings providing labels for the corresponding
+     *                   data points.
+     *                   Each data point in the chart will be labeled accordingly.
+     * @return PieChart
+     *         A PieChart object representing a labeled pie chart with the provided
+     *         data points and labels.
+     */
+    PieChart pie(double[] dataPoints, String[] labels);
 
 }
