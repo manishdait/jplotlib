@@ -37,7 +37,8 @@ import io.github.manishdait.jplotlib.charts.pie.PieChartOptions;
 import io.github.manishdait.jplotlib.charts.scatter.ScatterChart;
 import io.github.manishdait.jplotlib.charts.scatter.ScatterChartOptions;
 import io.github.manishdait.jplotlib.data.GraphData;
-import io.github.manishdait.jplotlib.error.ArrayLengthMissMatchException;
+import io.github.manishdait.jplotlib.error.JplotlibError;
+import io.github.manishdait.jplotlib.error.util.ErrorConstants;
 import io.github.manishdait.jplotlib.data.CartesianData;
 import io.github.manishdait.jplotlib.internals.components.axis.Config;
 import io.github.manishdait.jplotlib.internals.util.AxisType;
@@ -62,25 +63,22 @@ import io.github.manishdait.jplotlib.ui.Window;
  * jplot.pie(new double[]{10, 20, 30, 40});
  * jplot.show();
  *
- * Note: The show() method will display the chart only if it has data points 
+ * Note: The show() method will display the chart only if it has data points
  * (coordinates or pieData).
  * 
  * @author Manish Dait
  * @version 1.0.0
  */
 
-public final class Jplotlib implements 
-  LineChartOptions,
-  ScatterChartOptions,
-  BarGraphOptions,
-  PieChartOptions
-{
+public final class Jplotlib implements
+    LineChartOptions,
+    ScatterChartOptions,
+    BarGraphOptions,
+    PieChartOptions {
 
   protected Window window;
   protected Config axisConfiguration;
   protected List<Graph> graphs;
-
-
 
   public Jplotlib() {
     this.axisConfiguration = new Config();
@@ -88,7 +86,8 @@ public final class Jplotlib implements
   }
 
   public final void show() {
-    if(((axisConfiguration.getTotalXLength() == 0 || axisConfiguration.getTotalYLength() == 0) && axisConfiguration.getBarLabelLen() == 0) && !axisConfiguration.getAxisType().equals(AxisType.PIE)) {
+    if (((axisConfiguration.getTotalXLength() == 0 || axisConfiguration.getTotalYLength() == 0)
+        && axisConfiguration.getBarLabelLen() == 0) && !axisConfiguration.getAxisType().equals(AxisType.PIE)) {
       return;
     }
     this.window = new Window(this.axisConfiguration, this.graphs);
@@ -117,13 +116,9 @@ public final class Jplotlib implements
     this.axisConfiguration.setyGrid(yGrid);
   }
 
-
-
   private void setAxisType(AxisType axisType) {
-    if (
-      axisConfiguration.getAxisType() == null ||
-      axisConfiguration.getAxisType().getPriority() < axisType.getPriority()
-    ) {
+    if (axisConfiguration.getAxisType() == null ||
+        axisConfiguration.getAxisType().getPriority() < axisType.getPriority()) {
       axisConfiguration.setAxisType(axisType);
     }
   }
@@ -147,7 +142,7 @@ public final class Jplotlib implements
     } else {
       setYData(data);
     }
-    
+
     for (String label : labels) {
       if (!GraphData.getMap().containsKey(label)) {
         GraphData.getMap().put(label, GraphData.getIndx());
@@ -166,9 +161,10 @@ public final class Jplotlib implements
       max = max > i ? max : i;
       min = min < i ? min : i;
     }
-    axisConfiguration.setyUpperBound((int)max);
-    axisConfiguration.setyLowerBound((int)min);
-    axisConfiguration.setMaxYLength(axisConfiguration.getMaxYLength() > data.length ? axisConfiguration.getMaxYLength() : data.length);
+    axisConfiguration.setyUpperBound((int) max);
+    axisConfiguration.setyLowerBound((int) min);
+    axisConfiguration.setMaxYLength(
+        axisConfiguration.getMaxYLength() > data.length ? axisConfiguration.getMaxYLength() : data.length);
     axisConfiguration.setTotalYLength(axisConfiguration.getTotalYLength() + data.length);
   }
 
@@ -176,19 +172,23 @@ public final class Jplotlib implements
     double max = axisConfiguration.getxUpperBound();
     double min = axisConfiguration.getxLowerBound();
     for (double i : data) {
-      max = max > i? max:i;
-      min = min < i? min:i;
+      max = max > i ? max : i;
+      min = min < i ? min : i;
     }
-    axisConfiguration.setxUpperBound((int)max);
-    axisConfiguration.setxLowerBound((int)min);
-    axisConfiguration.setMaxXLength(axisConfiguration.getMaxXLength() > data.length? axisConfiguration.getMaxXLength():data.length);
+    axisConfiguration.setxUpperBound((int) max);
+    axisConfiguration.setxLowerBound((int) min);
+    axisConfiguration.setMaxXLength(
+        axisConfiguration.getMaxXLength() > data.length ? axisConfiguration.getMaxXLength() : data.length);
     axisConfiguration.setTotalXLength(axisConfiguration.getTotalXLength() + data.length);
   }
 
-  //Line Chart
+  // Line Chart
 
   @Override
   public LineChart plot(double[] yPoints) {
+    if (yPoints == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
     double[] xPoints = createTempArr(yPoints);
     setAxisType(AxisType.PLOT);
     setAxisParameters(xPoints, yPoints);
@@ -199,8 +199,11 @@ public final class Jplotlib implements
 
   @Override
   public LineChart plot(double[] xPoints, double[] yPoints) {
+    if (xPoints == null || yPoints == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
     if (xPoints.length != yPoints.length) {
-        throw new ArrayLengthMissMatchException("The length of xPoints is not equal to the yPoints.");
+      throw new JplotlibError(ErrorConstants.UNMATCH_DIMENSION_LENGTH_ERROR);
     }
     setAxisType(AxisType.PLOT);
     setAxisParameters(xPoints, yPoints);
@@ -213,8 +216,11 @@ public final class Jplotlib implements
 
   @Override
   public ScatterChart scatter(double[] xPoints, double[] yPoints) {
+    if (xPoints == null || yPoints == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
     if (xPoints.length != yPoints.length) {
-        throw new ArrayLengthMissMatchException("The length of xPoints is not equal to the yPoints.");
+      throw new JplotlibError(ErrorConstants.UNMATCH_DIMENSION_LENGTH_ERROR);
     }
     setAxisType(AxisType.PLOT);
     setAxisParameters(xPoints, yPoints);
@@ -227,8 +233,11 @@ public final class Jplotlib implements
 
   @Override
   public BarGraph bar(String[] labels, double[] points) {
+    if (labels == null || points == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
     if (labels.length != points.length) {
-        throw new ArrayLengthMissMatchException("The length of labels is not equal to the data points.");
+      throw new JplotlibError(ErrorConstants.MISSMATCH_LABELDATA_LENGTH_ERROR);
     }
     setAxisType(AxisType.BAR);
     setAxisParameters(labels, points, false);
@@ -236,11 +245,14 @@ public final class Jplotlib implements
     graphs.add(barGraph);
     return barGraph;
   }
-  
+
   @Override
   public BarGraph barh(String[] labels, double[] points) {
+    if (labels == null || points == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
     if (labels.length != points.length) {
-        throw new ArrayLengthMissMatchException("The length of labels is not equal to the data points.");
+      throw new JplotlibError(ErrorConstants.MISSMATCH_LABELDATA_LENGTH_ERROR);
     }
     setAxisType(AxisType.BAR);
     setAxisParameters(labels, points, true);
@@ -253,6 +265,9 @@ public final class Jplotlib implements
 
   @Override
   public PieChart pie(double[] dataPoints) {
+    if (dataPoints == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
     setAxisType(AxisType.PIE);
     PieChart pieChart = new PieChart(new GraphData(null, dataPoints));
     graphs.add(pieChart);
