@@ -24,6 +24,8 @@
 
 package io.github.manishdait.jplotlib.charts.pie;
 
+import java.awt.Color;
+
 import io.github.manishdait.jplotlib.charts.helper.Graph;
 import io.github.manishdait.jplotlib.data.util.Data;
 import io.github.manishdait.jplotlib.internals.util.ChartType;
@@ -72,6 +74,11 @@ public class PieChart implements Graph {
 
     public void setStyle(PieChartStyle style) {
         this.style = style;
+    }
+
+    public PieChart color(Color[] colors) {
+        style.setColor(colors);
+        return this;
     }
 
 }
