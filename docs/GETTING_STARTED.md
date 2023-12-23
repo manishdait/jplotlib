@@ -33,7 +33,7 @@ double[] y = {2.5, 5.1, 3.9, 6.2};
 ```
 4. Plot the data using the plot() method:
 ```java
-jplotlib.plot(x, y).build();
+jplotlib.plot(x, y);
 ```
 5. Add optional elements like grid, labels, and title:
 ```java
@@ -56,7 +56,7 @@ For more details and additional customization options, you can refer to the [PLO
 To create a 2D scatter plot using Jplotlib, follow the same steps as above, but instead of using the `plot()` method, use the `scatter()` method:
 
 ```java
-jplotlib.scatter(x, y).build();
+jplotlib.scatter(x, y);
 ```
 
 You can find more information about scatter plots in the [SCATTER.md](SCATTER.md) document.
@@ -69,7 +69,7 @@ To create a 2D bar graph using Jplotlib, follow the same initial steps and then 
 String[] xLabels = {"A", "B", "C", "D"};
 double[] yData = {25.0, 42.0, 30.5, 18.7};
 
-jplotlib.bar(xLabels, yData).build();
+jplotlib.bar(xLabels, yData);
 ```
 
 For more details and options for bar graphs, refer to the [BAR.md](BAR.md) document.
@@ -83,7 +83,7 @@ To create a 2D pie chart using Jplotlib, follow the same initial steps and then 
 ```java
 double[] dataPoints = {35.0, 25.0, 15.0, 25.0};
 
-jplotlib.pie(dataPoints).build();
+jplotlib.pie(dataPoints);
 ```
 
 More information about pie charts can be found in the [PIE.md](PIE.md) document.

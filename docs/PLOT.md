@@ -24,33 +24,32 @@ The `plot()` method in the `Jplotlib.plot()` allows you to create 2D line plots 
 
 ## Line Color
 
-To customize the color of the line in the plot, you can use the `.color()` method available in the Jplotlib library. This method allows you to specify the color using either the `BaseColor` enum from Jplotlib or the `java.awt.Color` class.
+To customize the color of the line in the plot, you can use the `.color()` method available in the Jplotlib library. This method allows you to specify the color using either the `LibColor` enum from Jplotlib or the `java.awt.Color` class.
 
-### Using `BaseColor` from Jplotlib:
+### Using `LibColor` from Jplotlib:
 
-The `BaseColor` enum provides a set of predefined colors that you can use to style the line in your plot. Here's an example of how to use it:
+The `LibColor` enum provides a set of predefined colors that you can use to style the line in your plot. Here's an example of how to use it:
 
 ```java
 import io.github.manishdait.jplotlib.Jplotlib;
-import io.github.manishdait.jplotlib.style.color.BaseColor;
+import io.github.manishdait.jplotlib.defaults.color.LibColor;
 
 public class App {
   public static void main(String[] args) {
     Jplotlib jplotlib = new Jplotlib();
     double[] y1 = {6, 2, 7, 11};
     jplotlib.plot(y1)
-      .color(BaseColor.LIME.getColor())
-      .build();
+      .color(LibColor.LIME.getColor());
     jplotlib.show();
   }
 }
 ```
 
-In this example, we use the `.color(BaseColor.LIME.getColor())` method to set the color of the line to lime.
+In this example, we use the `.color(LibColor.LIME.getColor())` method to set the color of the line to lime.
 
-<img src="assets/plot/plot_eg1.png" alt="plot_eg1.png" width="620px">
+<img src="assets/plot/plot_EG1.png" alt="plot_eg1.png" width="620px">
 
-For more information about the `BaseColor` enum and the available colors, refer to the [BaseColor Enum section](BASE_COLOR.md).
+For more information about the `LibColor` enum and the available colors, refer to the [LibColor Enum section](LIB_COLOR.md).
 
 
 ### Using `java.awt.Color`:
@@ -66,8 +65,7 @@ public class App {
     Jplotlib jplotlib = new Jplotlib();
     double[] y1 = {6, 2, 7, 11};
     jplotlib.plot(y1)
-      .color(Color.RED)
-      .build();
+      .color(Color.RED);
     jplotlib.show();
   }
 }
@@ -75,7 +73,7 @@ public class App {
 
 In this example, we use the `.color(Color.RED)` method to set the color of the line to red.
 
-<img src="assets/plot/plot_eg2.png" alt="plot_eg2.png" width="620px">
+<img src="assets/plot/plot_EG2.png" alt="plot_eg2.png" width="620px">
 
 Whichever method you choose, the `.color()` method allows you to customize the appearance of your line plots with different colors according to your preferences.
 
@@ -94,8 +92,7 @@ public class App {
     Jplotlib jplotlib = new Jplotlib();
     double[] y1 = {6, 2, 7, 11};
     jplotlib.plot(y1)
-      .lineWidth(15F)
-      .build();
+      .lineWidth(15F);
     jplotlib.show();
   }
 }
@@ -103,7 +100,7 @@ public class App {
 
 In this example, we use the `.lineWidth(15F)` method to set the width of the line to 15.
 
-<img src="assets/plot/plot_eg3.png" alt="plot_eg3.png" width="620px">
+<img src="assets/plot/plot_EG3.png" alt="plot_eg3.png" width="620px">
 
 
 
@@ -114,57 +111,55 @@ The value passed to `.lineWidth()` should be a floating-point number between 1 a
 
 ## Line Style
 
-To change the style of the plotted line in the `Jplotlib.plot()` method, you can use the `.lineStyle()` method. This method allows you to customize the appearance of the line using the `BaseStoke` enum from Jplotlib, which currently contains two possible values: `NONE` and `DASHED`.
+To change the style of the plotted line in the `Jplotlib.plot()` method, you can use the `.lineStyle()` method. This method allows you to customize the appearance of the line using the `Stoke` enum from Jplotlib, which currently contains two possible values: `NONE` and `DASHED`.
 
 ### Example Usage:
 ```java
 import io.github.manishdait.jplotlib.Jplotlib;
-import io.github.manishdait.jplotlib.style.line.BaseStroke;
+import io.github.manishdait.jplotlib.defaults.line.Stroke;
 
 public class App {
   public static void main(String[] args) {
     Jplotlib jplotlib = new Jplotlib();
     double[] y1 = {6, 2, 7, 11};
     jplotlib.plot(y1)
-      .lineStyle(BaseStroke.DASHED)
-      .build();
+      .lineStyle(Stroke.DASHED);
     jplotlib.show();
   }
 }
 ```
 
-In this example, we use the `.lineStyle(BaseStroke.DASHED)` method to set the style of the line to dashed.
+In this example, we use the `.lineStyle(Stroke.DASHED)` method to set the style of the line to dashed.
 
-<img src="assets/plot/plot_eg4.png" alt="plot_eg4.png" width="620px">
+<img src="assets/plot/plot_EG4.png" alt="plot_eg4.png" width="620px">
 
-For more information about the `BaseStroke` enum and the available styles, refer to the [BaseStroke Enum section](BASE_STROKE.md).
+For more information about the `Stroke` enum and the available styles, refer to the [Stroke Enum section](STROKE.md).
 
 
 ## Line Marker
 
-To add markers to line points in `Jplotlib.plot()`, you can use the `.marker()` method. This method allows you to customize the appearance of the markers using the `BaseMarker` enum from Jplotlib, which currently supports two marker types: `NONE`, `CIRCLE`, and `SQUARE`.
+To add markers to line points in `Jplotlib.plot()`, you can use the `.marker()` method. This method allows you to customize the appearance of the markers using the `Marker` enum from Jplotlib, which currently supports two marker types: `NONE`, `CIRCLE`, and `SQUARE`.
 
 ### Example Usage:
 
 ```java
 import io.github.manishdait.jplotlib.Jplotlib;
-import io.github.manishdait.jplotlib.style.marker.BaseMarker;
+import io.github.manishdait.jplotlib.style.marker.Marker;
 
 public class App {
   public static void main(String[] args) {
     Jplotlib jplotlib = new Jplotlib();
     double[] y1 = {6, 2, 7, 11};
     jplotlib.plot(y1)
-      .marker(BaseMarker.CIRCLE)
-      .build();
+      .marker(Marker.CIRCLE);
     jplotlib.show();
   }
 }
 ```
 
-In this example, we use the `.marker(BaseMarker.CIRCLE)` method to add circular markers to the line points.
+In this example, we use the `.marker(Marker.CIRCLE)` method to add circular markers to the line points.
 
-<img src="assets/plot/plot_eg5.png" alt="plot_eg5.png" width="620px">
+<img src="assets/plot/plot_EG5.png" alt="plot_eg5.png" width="620px">
 
 For more information about the `Marker` and how to use, refer to the [Marker section](MARKER.md).
 
@@ -182,10 +177,8 @@ public class App {
     Jplotlib jplotlib = new Jplotlib();
     double[] y1 = {6, 2, 7, 11};
     double[] y2 = {3, 8, 1, 10};
-    jplotlib.plot(y1)
-      .build();
-    jplotlib.plot(y2)
-      .build();
+    jplotlib.plot(y1);
+    jplotlib.plot(y2);
     jplotlib.show();
   }
 }
@@ -193,7 +186,7 @@ public class App {
 
 In this example, we create two sets of y-coordinates (`y1` and `y2`) and plot them using two separate `Jplotlib.plot()` method calls. We customize the appearance of each line using different line styles and markers.
 
-<img src="assets/plot/plot_eg6.png" alt="plot_eg6.png" width="620px">
+<img src="assets/plot/plot_EG6.png" alt="plot_eg6.png" width="620px">
 
 You can extend this approach to plot any number of lines by adding more `Jplotlib.plot()` method calls with their respective datasets and customizations.
 
@@ -215,10 +208,8 @@ public class App {
     double[] x2 = {2, 3, 4, 5};
     double[] y1 = {6, 2, 7, 11};
     double[] y2 = {3, 8, 1, 10};
-    jplotlib.plot(x1, y1)
-      .build();
-    jplotlib.plot(x2, y2)
-      .build();
+    jplotlib.plot(x1, y1);
+    jplotlib.plot(x2, y2);
     jplotlib.show();
   }
 }
@@ -226,5 +217,5 @@ public class App {
 
 In this example, we create two sets of y-coordinates (`y1` and `y2`) and  two sets of x-coordinates (`x1` and `x2`) and plot them using two separate `Jplotlib.plot()` method calls.
 
-<img src="assets/plot/plot_eg7.png" alt="plot_eg7.png" width="620px">
+<img src="assets/plot/plot_EG7.png" alt="plot_eg7.png" width="620px">
 

@@ -30,8 +30,7 @@ public class App {
     double[] y = {99,86,87,88,111,86,103,87,94,78,77,85,86};
 
     Jplotlib jplotlib = new Jplotlib();
-    jplotlib.scatter(x, y)
-      .build();
+    jplotlib.scatter(x, y);
     jplotlib.show();
   }
 }
@@ -39,7 +38,7 @@ public class App {
 
 In this example, we use the `scatter()` method to create a scatter plot using `x` as the x-coordinates and `y` as the y-coordinates. Each point in the plot represents a pair of x and y values from the given arrays.
 
-<img src="assets/scatter/scatter_eg1.png" alt="scatter_eg1.png" width="620px">
+<img src="assets/scatter/scatter_EG1.png" alt="scatter_eg1.png" width="620px">
 
 
 ## Compare Plots
@@ -59,27 +58,25 @@ public class App {
     double[] y2 = {100,105,84,105,90,99,90,95,94,100,79,112,91,80,85};
 
     Jplotlib jplotlib = new Jplotlib();
-    jplotlib.scatter(x1, y1)
-      .build();
-    jplotlib.scatter(x2, y2)
-      .build();
+    jplotlib.scatter(x1, y1);
+    jplotlib.scatter(x2, y2);
     jplotlib.show();
   }
 }
 ```
 In this example, we use two `scatter()` methods to create two separate scatter plots. The first scatter() method creates a scatter plot using `x1` as the x-coordinates and `y1` as the y-coordinates, and the second scatter() method creates another scatter plot using `x2` and `y2`.
 
-<img src="assets/scatter/scatter_eg2.png" alt="scatter_eg2.png" width="620px">
+<img src="assets/scatter/scatter_EG2.png" alt="scatter_eg2.png" width="620px">
 
 
 ## Colors
 
-In Jplotlib, you have the flexibility to set your own color for each scatter plot using the `.color()` method. This feature allows you to customize the appearance of individual scatter plots, making it easier to distinguish different datasets or conditions in your visualizations. Similar to `plot().`[.color()](PLOT.md) you can use `BaseColor` enum of `java.awt.Color`.
+In Jplotlib, you have the flexibility to set your own color for each scatter plot using the `.color()` method. This feature allows you to customize the appearance of individual scatter plots, making it easier to distinguish different datasets or conditions in your visualizations. Similar to `plot().`[.color()](PLOT.md) you can use `LibColor` enum of `java.awt.Color`.
 
 ### Example Usage:
 ```java
 import io.github.manishdait.jplotlib.Jplotlib;
-import io.github.manishdait.jplotlib.style.color.BaseColor;
+import io.github.manishdait.jplotlib.defaults.color.LibColor;
 
 public class App {
   public static void main(String[] args) {
@@ -90,24 +87,20 @@ public class App {
 
     Jplotlib jplotlib = new Jplotlib();
     jplotlib.scatter(x1, y1)
-      .color(BaseColor.SKY.getColor())
-      .build();
+      .color(LibColor.SKY.getColor());
     jplotlib.scatter(x2, y2)
-    .color(BaseColor.PINK.getColor())
-      .build();
+    .color(LibColor.PINK.getColor());
     jplotlib.show();
   }
 }
 ```
 
-In this example, we use the `.color(BaseColor.SKY.getColor())` argument with the first scatter() method to set the color of the first scatter plot to light_blue. Similarly, we use `.color(BaseColor.PINK.getColor())` with the second scatter() method to set the color of the second scatter plot to pink.
+In this example, we use the `.color(LibColor.SKY.getColor())` argument with the first scatter() method to set the color of the first scatter plot to light_blue. Similarly, we use `.color(LibColor.PINK.getColor())` with the second scatter() method to set the color of the second scatter plot to pink.
 
-<img src="assets/scatter/scatter_eg3.png" alt="scatter_eg3.png" width="620px">
+<img src="assets/scatter/scatter_EG3.png" alt="scatter_eg3.png" width="620px">
 
-For a complete list of available colors from the `BaseColor` enum, you can refer to the [BaseColor Enum](BASE_COLOR.md).
+For a complete list of available colors from the `BaseColor` enum, you can refer to the [LibColor Enum](LIB_COLOR.md).
 
-
-## Size
 
 ## Size
 
@@ -126,8 +119,7 @@ public class App {
 
     Jplotlib jplotlib = new Jplotlib();
     jplotlib.scatter(x, y)
-      .size(size)
-      .build();
+      .size(size);
     jplotlib.show();
   }
 }
@@ -135,7 +127,7 @@ public class App {
 
 In this example, we use the `.size()` argument with both scatter() methods to set the size of the dots for each data point. By customizing the size of each dot, you can emphasize specific data points or highlight patterns in the data, enhancing the overall visual representation of your scatter plots.
 
-<img src="assets/scatter/scatter_eg4.png" alt="scatter_eg4.png" width="620px">
+<img src="assets/scatter/scatter_EG4.png" alt="scatter_eg4.png" width="620px">
 
 
 ## Alpha
@@ -156,8 +148,7 @@ public class App {
     Jplotlib jplotlib = new Jplotlib();
     jplotlib.scatter(x, y)
       .size(size)
-      .alpha(0.5F)
-      .build();
+      .alpha(0.5F);
     jplotlib.show();
   }
 }
@@ -167,7 +158,7 @@ In this example, we use the `.alpha()` argument with the scatter() method to set
 
 By adjusting the transparency of the dots, you can reveal underlying patterns in the data, especially when data points overlap or cluster closely together. It helps in visualizing the density of data points and identifying areas with higher concentration.
 
-<img src="assets/scatter/scatter_eg5.png" alt="scatter_eg5.png" width="620px">
+<img src="assets/scatter/scatter_EG5.png" alt="scatter_eg5.png" width="620px">
 
 
 ## Marker
@@ -178,7 +169,7 @@ In Jplotlib, you can change the style of markers for scatter points using the `.
 
 ```java
 import io.github.manishdait.jplotlib.Jplotlib;
-import io.github.manishdait.jplotlib.style.marker.BaseMarker;
+import io.github.manishdait.jplotlib.defaults.marker.Marker;
 
 public class App {
   public static void main(String[] args) {
@@ -189,20 +180,18 @@ public class App {
 
     Jplotlib jplotlib = new Jplotlib();
     jplotlib.scatter(x1, y1)
-      .marker(BaseMarker.SQUARE)
-      .build();
-    jplotlib.scatter(x2, y2)
-      .build();
+      .marker(Marker.SQUARE);
+    jplotlib.scatter(x2, y2);
     jplotlib.show();
   }
 }
 ```
 
-In this example, we use the `.marker(BaseMarker.SQUARE)` method with the `.scatter()` method to set the style of the marker for the scatter points. The `BaseMarker.SQUARE` value specifies that square markers will be used for each data point in the scatter plot.
+In this example, we use the `.marker(Marker.SQUARE)` method with the `.scatter()` method to set the style of the marker for the scatter points. The `Marker.SQUARE` value specifies that square markers will be used for each data point in the scatter plot.
 
-<img src="assets/scatter/scatter_eg6.png" alt="scatter_eg6.png" width="620px">
+<img src="assets/scatter/scatter_EG6.png" alt="scatter_eg6.png" width="620px">
 
-You can use various marker styles, such as `BaseMarker.NONE`, `BaseMarker.CIRCLE`, or `BaseMarker.SQUARE`, to change the appearance of the data points in the scatter plot.
+You can use various marker styles, such as `Marker.NONE`, `Marker.CIRCLE`, or `Marker.SQUARE`, to change the appearance of the data points in the scatter plot.
 
-For a complete list of available marker types and more details, you can refer to the [Marker Section](MARKER.md). Here the difference is that the `BaseMarker.NONE` will work same as `BaseMarker.CIRCLE`.
+For a complete list of available marker types and more details, you can refer to the [Marker Section](MARKER.md). Here the difference is that the `Marker.NONE` will work same as `Marker.CIRCLE`.
 

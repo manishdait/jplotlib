@@ -36,13 +36,12 @@ public class App {
     jplotlib.title("Line Plot");
     jplotlib.xLabel("xLabel");
     jplotlib.yLabel("yLabel");
-    jplotlib.plot(y).build();
+    jplotlib.plot(y);
     jplotlib.show();
-    
   }
 }
 ```
-<img src="docs/assets/base_eg1.png" alt="base_eg1.png" width="620px">
+<img src="docs/assets/readme_EG1.png" alt="readme_eg1.png" width="620px">
 
 Another Example to draw **MultiLine Plot**
 
@@ -59,14 +58,14 @@ public class App {
     jplotlib.title("Line Plot");
     jplotlib.xLabel("xLabel");
     jplotlib.yLabel("yLabel");
-    jplotlib.plot(y1).build();
+    jplotlib.plot(y1);
+    jplotlib.plot(y2);
     jplotlib.show();
-    
   }
 }
 ```
 
-<img src="docs/assets/base_eg2.png" alt="base_eg2.png" width="620px">
+<img src="docs/assets/readme_EG2.png" alt="readme_eg2.png" width="620px">
 
 Learn More about Jplotlib in [GETTING_STARTED.md](docs/GETTING_STARTED.md)
 
