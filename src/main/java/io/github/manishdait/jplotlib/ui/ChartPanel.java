@@ -24,122 +24,111 @@
 
 package io.github.manishdait.jplotlib.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import io.github.manishdait.jplotlib.data.SeriesData;
-import io.github.manishdait.jplotlib.data.StyleData;
-import io.github.manishdait.jplotlib.internal.component.axis.AxisBuilder;
-import io.github.manishdait.jplotlib.internal.component.label.AxisLabel;
-import io.github.manishdait.jplotlib.internal.component.label.TitleLabel;
-import io.github.manishdait.jplotlib.internal.component.label.VerticalAxisLabel;
-import io.github.manishdait.jplotlib.internal.util.Constants;
-import io.github.manishdait.jplotlib.plotter.SeriesPlotter;
-
+import io.github.manishdait.jplotlib.charts.helper.Graph;
+import io.github.manishdait.jplotlib.charts.helper.GraphPlotter;
+import io.github.manishdait.jplotlib.internals.components.axis.Axis;
+import io.github.manishdait.jplotlib.internals.components.axis.Config;
+import io.github.manishdait.jplotlib.internals.components.label.AxisLabel;
+import io.github.manishdait.jplotlib.internals.components.label.TitleLabel;
+import io.github.manishdait.jplotlib.internals.components.label.VerticalAxisLabel;
+import io.github.manishdait.jplotlib.internals.util.Constants;
 
 /**
- * The ChartPanel class represents a custom JPanel used for rendering Jplotlib 
+ * The ChartPanel class represents a custom JPanel used for rendering Jplotlib
  * charts and data visualizations.
  * 
- * This class extends the standard JPanel and provides functionality to display 
- * a Jplotlib chart within a JPanel container. It dynamically renders the chart 
- * based on the provided SeriesData and StyleData, ensuring that the chart is 
- * properly displayed with the appropriate title, axis labels, and data points.
+ * This class extends the standard JPanel and provides functionality to display
+ * a Jplotlib chart within a JPanel container. It dynamically renders the chart
+ * based on the provided AxisConfiguration and Graphs, ensuring that the chart
+ * is properly displayed with the appropriate title, axis labels, and data points.
  * 
- * The ChartPanel handles the rendering of the chart by using the provided 
- * Graphics object. It sets the title, x-axis label, and y-axis label, and then 
- * plots the data points using the SeriesPlotter class.
+ * The ChartPanel handles the rendering of the chart by using the provided
+ * Graphics object. It sets the title, x-axis label, and y-axis label, and then
+ * plots the data points using the GraphPlotter class.
  * 
  * 
  */
-
 public class ChartPanel extends JPanel {
 
-  private SeriesData seriesData;
+    private transient Config axisConfiguration;
+    private transient List<Graph> graphs;
 
-  private List<StyleData> styleData;
-    
-  private TitleLabel title = new TitleLabel();
-  private AxisLabel xLabel = new AxisLabel();
-  private VerticalAxisLabel yLabel = new VerticalAxisLabel();
+    private TitleLabel title = new TitleLabel();
+    private AxisLabel xLabel = new AxisLabel();
+    private VerticalAxisLabel yLabel = new VerticalAxisLabel();
 
-  private JPanel graph = new JPanel();
+    private JPanel graph = new JPanel();
+    private BorderLayout borderlayout = new BorderLayout();
 
-  /**
-   * Constructs a new ChartPanel with the specified SeriesData and List of 
-   * StyleData.
-   *
-   * @param seriesData the SeriesData containing the data points for the chart.
-   * @param styleData the List of StyleData containing style information for the
-   * chart.
-   */
+    /**
+     * Constructs a new ChartPanel with the specified AxisConfiguration and List of
+     * Graphs.
+     * 
+     * @param axisConfiguration
+     *            the AxisConfiguration defining rendering properties for the axis.
+     * @param graphs
+     *            the List of Graphs containing style and data
+     *            information
+     *            for the charts.
+     *
+     */
+    public ChartPanel(Config axisConfiguration, List<Graph> graphs) {
+        super.setBackground(new Color(255, 255, 255, 255));
+        this.axisConfiguration = axisConfiguration;
+        this.graphs = graphs;
+        this.setLayout(borderlayout);
+        this.setBorder(BorderFactory.createEmptyBorder(40, 10, 40, 10));
 
-  public ChartPanel(SeriesData seriesData, List<StyleData> styleData) {
-    super.setBackground(new Color(255, 255, 255, 255));
-    this.seriesData = seriesData;
-    this.styleData = styleData;
-  }
+    }
 
-  @Override
-  public void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    
-    // Set title label
-    this.title.setBounds(
-      0, 
-      60, 
-      this.getWidth(), 
-      20
-    );
-    this.title.setText(this.seriesData.getTitle());
-    this.add(title);
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
-    // Set xLabel label
-    this.xLabel.setBounds(
-      0, 
-      this.getHeight() - 60, 
-      this.getWidth(), 
-      20
-    );
-    this.xLabel.setText(this.seriesData.getxLabel());
-    this.add(xLabel);
+        // Set title label
+        this.title.setText(this.axisConfiguration.getTitle());
+        this.add(title, BorderLayout.NORTH);
 
-    // Set yLabel label
-    this.yLabel.setBounds(
-      0, 
-      0, 
-      40, 
-      this.getHeight()
-    );
-    this.yLabel.setText(this.seriesData.getyLabel());
-    this.add(yLabel);
+        // Set xLabel label
+        this.xLabel.setText(this.axisConfiguration.getxLabel());
+        this.add(xLabel, BorderLayout.SOUTH);
 
-    // Build and draw axes
-    new AxisBuilder(g, this, seriesData).buildAxis();
+        // Set yLabel label
+        this.yLabel.setText(this.axisConfiguration.getyLabel());
+        this.add(yLabel, BorderLayout.LINE_START);
+        
+        // Build and draw axis
+        new Axis(g, this, axisConfiguration).drawAxis();
+        setGraph(this.graph);
+        
+        // Plot and draw graph
+        plotGraph();
+        
+    }
 
-    // Plot and draw graph
-    setGraph(this.graph);
-    plotGraph();
-  }
+    private void setGraph(JPanel graph) {
+        this.remove(this.graph);
+        this.graph = graph;
+        this.graph.setBounds(
+                Constants.MARGIN,
+                Constants.MARGIN,
+                this.getWidth() - (Constants.MARGIN * 2),
+                this.getHeight() - (Constants.MARGIN * 2));
+        this.add(graph, BorderLayout.CENTER);
+    }
 
-  private void setGraph(JPanel graph) {
-    this.remove(this.graph);
-    this.graph = graph;
-    this.graph.setBounds(
-      Constants.MARGIN, 
-      Constants.MARGIN, 
-      this.getWidth() - (Constants.MARGIN * 2), 
-      this.getHeight() - (Constants.MARGIN * 2)
-    );
-    this.add(graph);
-  }
-
-  private void plotGraph() {
-    JPanel graph = new SeriesPlotter(seriesData, styleData);
-    setGraph(graph);
-  }
+    private void plotGraph() {
+        JPanel plot = new GraphPlotter(axisConfiguration, graphs);
+        setGraph(plot);
+        this.repaint();
+    }
 
 }

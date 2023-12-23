@@ -27,20 +27,22 @@ package io.github.manishdait.jplotlib;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.manishdait.jplotlib.chart.BarGraph;
-import io.github.manishdait.jplotlib.chart.LineGraph;
-import io.github.manishdait.jplotlib.chart.PieChart;
-import io.github.manishdait.jplotlib.chart.ScatterGraph;
-import io.github.manishdait.jplotlib.chart.helper.BarGraphOptions;
-import io.github.manishdait.jplotlib.chart.helper.LineGraphOptions;
-import io.github.manishdait.jplotlib.chart.helper.PieChartOptions;
-import io.github.manishdait.jplotlib.chart.helper.ScatterGraphOptions;
-import io.github.manishdait.jplotlib.data.Coordinates;
-import io.github.manishdait.jplotlib.data.SeriesData;
-import io.github.manishdait.jplotlib.data.StyleData;
-import io.github.manishdait.jplotlib.error.ArrayLengthMissMatchException;
-import io.github.manishdait.jplotlib.internal.util.AxisType;
-import io.github.manishdait.jplotlib.ui.BaseFrame;
+import io.github.manishdait.jplotlib.charts.bar.BarGraph;
+import io.github.manishdait.jplotlib.charts.bar.BarGraphOptions;
+import io.github.manishdait.jplotlib.charts.helper.Graph;
+import io.github.manishdait.jplotlib.charts.line.LineChart;
+import io.github.manishdait.jplotlib.charts.line.LineChartOptions;
+import io.github.manishdait.jplotlib.charts.pie.PieChart;
+import io.github.manishdait.jplotlib.charts.pie.PieChartOptions;
+import io.github.manishdait.jplotlib.charts.scatter.ScatterChart;
+import io.github.manishdait.jplotlib.charts.scatter.ScatterChartOptions;
+import io.github.manishdait.jplotlib.data.GraphData;
+import io.github.manishdait.jplotlib.error.JplotlibError;
+import io.github.manishdait.jplotlib.error.util.ErrorConstants;
+import io.github.manishdait.jplotlib.data.CartesianData;
+import io.github.manishdait.jplotlib.internals.components.axis.Config;
+import io.github.manishdait.jplotlib.internals.util.AxisType;
+import io.github.manishdait.jplotlib.ui.Window;
 
 /**
  * Jplotlib is a Java library for creating and displaying different types of
@@ -61,89 +63,68 @@ import io.github.manishdait.jplotlib.ui.BaseFrame;
  * jplot.pie(new double[]{10, 20, 30, 40});
  * jplot.show();
  *
- * Note: The show() method will display the chart only if it has data points 
+ * Note: The show() method will display the chart only if it has data points
  * (coordinates or pieData).
  * 
  * @author Manish Dait
- * @version 1.0.0
+ * @version 1.1.0
  */
 
-public class Jplotlib implements 
-  LineGraphOptions, 
-  ScatterGraphOptions, 
-  BarGraphOptions, 
-  PieChartOptions
-{
+public final class Jplotlib implements
+    LineChartOptions,
+    ScatterChartOptions,
+    BarGraphOptions,
+    PieChartOptions {
 
-  private BaseFrame baseFrame;
-  private SeriesData seriesData;
+  protected Window window;
+  protected Config axisConfiguration;
+  protected List<Graph> graphs;
 
-  private List<StyleData> styleData;
+  private boolean isPlotable;
 
   public Jplotlib() {
-    this.seriesData = new SeriesData();
-    this.styleData = new ArrayList<StyleData>();
+    this.axisConfiguration = new Config();
+    this.graphs = new ArrayList<>();
   }
 
   public final void show() {
-    if(seriesData.getCoordinates() == null && seriesData.getPieData() == null) {
+    if (!isPlotable) {
       return;
     }
-    this.baseFrame = new BaseFrame(this.seriesData, this.styleData);
-    this.baseFrame.setVisible(true);
+    this.window = new Window(this.axisConfiguration, this.graphs);
+    this.window.setVisible(true);
   }
 
   public final void title(final String str) {
-    this.seriesData.setTitle(str);
+    this.axisConfiguration.setTitle(str);
   }
 
   public final void xLabel(final String str) {
-    this.seriesData.setxLabel(str);
+    this.axisConfiguration.setxLabel(str);
   }
 
   public final void yLabel(final String str) {
-    this.seriesData.setyLabel(str);
+    this.axisConfiguration.setyLabel(str);
   }
 
   public final void grid() {
-    this.seriesData.setxGrid(true);
-    this.seriesData.setyGrid(true);
+    this.axisConfiguration.setxGrid(true);
+    this.axisConfiguration.setyGrid(true);
   }
 
   public final void grid(final boolean xGrid, final boolean yGrid) {
-    this.seriesData.setxGrid(xGrid);
-    this.seriesData.setyGrid(yGrid);
+    this.axisConfiguration.setxGrid(xGrid);
+    this.axisConfiguration.setyGrid(yGrid);
   }
 
-  private List<Coordinates> setCoordinates(
-    final double[] xPoints,
-    final double[] yPoints,
-    AxisType axisType
-  ) {
-    List<Coordinates> currCoordinates = new ArrayList<>();
-    if (this.seriesData.getCoordinates() != null) {
-      currCoordinates = this.seriesData.getCoordinates();
+  private void setAxisType(AxisType axisType) {
+    if (axisConfiguration.getAxisType() == null
+        || axisConfiguration.getAxisType().getPriority() < axisType.getPriority()) {
+      axisConfiguration.setAxisType(axisType);
     }
-
-    Coordinates coordinates = new Coordinates();
-    coordinates.setxPoints(xPoints);
-    coordinates.setyPoints(yPoints);
-    currCoordinates.add(coordinates);
-    if (
-      seriesData.getAxisType() == null ||
-      seriesData.getAxisType().getPriority() < axisType.getPriority()
-    ) {
-      seriesData.setAxisType(axisType);
-    }
-    
-    return currCoordinates;
   }
 
-  private void setLabel(String[] label) {
-    seriesData.setLabel(label);
-  }
-
-  private double[] tempArr(final double[] yPoints) {
+  private double[] createTempArr(final double[] yPoints) {
     double[] arr = new double[yPoints.length];
     for (int i = 0; i < yPoints.length; i++) {
       arr[i] = i;
@@ -151,96 +132,167 @@ public class Jplotlib implements
     return arr;
   }
 
-  // LINE GRAPH
+  private void setAxisParameters(double[] xPoints, double[] yPoints) {
+    setXData(xPoints);
+    setYData(yPoints);
+  }
+
+  private void setAxisParameters(String[] labels, double[] data, boolean isX) {
+    if (isX) {
+      setXData(data);
+    } else {
+      setYData(data);
+    }
+
+    for (String label : labels) {
+      if (!GraphData.getMap().containsKey(label)) {
+        GraphData.getMap().put(label, GraphData.getIndx());
+        GraphData.setIndx(GraphData.getIndx() + 1);
+      }
+    }
+
+    GraphData.setX(isX);
+    axisConfiguration.setBarLabelLen(GraphData.getMap().size());
+  }
+
+  private void setYData(double[] data) {
+    double max = axisConfiguration.getyUpperBound();
+    double min = axisConfiguration.getyLowerBound();
+    for (double i : data) {
+      max = max > i ? max : i;
+      min = min < i ? min : i;
+    }
+    axisConfiguration.setyUpperBound((int) max);
+    axisConfiguration.setyLowerBound((int) min);
+    axisConfiguration.setMaxYLength(
+        axisConfiguration.getMaxYLength() > data.length ? axisConfiguration.getMaxYLength() : data.length);
+    axisConfiguration.setTotalYLength(axisConfiguration.getTotalYLength() + data.length);
+  }
+
+  private void setXData(double[] data) {
+    double max = axisConfiguration.getxUpperBound();
+    double min = axisConfiguration.getxLowerBound();
+    for (double i : data) {
+      max = max > i ? max : i;
+      min = min < i ? min : i;
+    }
+    axisConfiguration.setxUpperBound((int) max);
+    axisConfiguration.setxLowerBound((int) min);
+    axisConfiguration.setMaxXLength(
+        axisConfiguration.getMaxXLength() > data.length ? axisConfiguration.getMaxXLength() : data.length);
+    axisConfiguration.setTotalXLength(axisConfiguration.getTotalXLength() + data.length);
+  }
+
+  // Line Chart
 
   @Override
-  public final LineGraph plot(
-    final double[] yPoints
-  ) {
-    double[] temp = tempArr(yPoints);
-    List<Coordinates> coordinates = setCoordinates(
-      temp,
-      yPoints,
-      AxisType.PLOT
-    );
-    this.seriesData.setCoordinates(coordinates);
-    LineGraph lineGraph = new LineGraph(this.styleData);
-    return lineGraph;
+  public LineChart plot(double[] yPoints) {
+    if (yPoints == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
+    double[] xPoints = createTempArr(yPoints);
+    setAxisType(AxisType.PLOT);
+    setAxisParameters(xPoints, yPoints);
+    LineChart lineChart = new LineChart(new CartesianData(xPoints, yPoints));
+    graphs.add(lineChart);
+    isPlotable = true;
+    return lineChart;
   }
 
   @Override
-  public final LineGraph plot(
-    final double[] xPoints,
-    final double[] yPoints
-  ) {
+  public LineChart plot(double[] xPoints, double[] yPoints) {
+    if (xPoints == null || yPoints == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
     if (xPoints.length != yPoints.length) {
-      throw new ArrayLengthMissMatchException(
-        "xPoints and yPoints must be of same size."
-      );
+      throw new JplotlibError(ErrorConstants.UNMATCH_DIMENSION_LENGTH_ERROR);
     }
-
-    List<Coordinates> coordinates = setCoordinates(
-      xPoints,
-      yPoints,
-      AxisType.PLOT
-    );
-    this.seriesData.setCoordinates(coordinates);
-    LineGraph lineGraph = new LineGraph(this.styleData);
-    return lineGraph;
+    setAxisType(AxisType.PLOT);
+    setAxisParameters(xPoints, yPoints);
+    LineChart lineChart = new LineChart(new CartesianData(xPoints, yPoints));
+    graphs.add(lineChart);
+    isPlotable = true;
+    return lineChart;
   }
 
-  // SCATTER GRAPH
+  // Scatter Chart
 
   @Override
-  public final ScatterGraph scatter(
-    final double[] xPoints,
-    final double[] yPoints
-  ) {
+  public ScatterChart scatter(double[] xPoints, double[] yPoints) {
+    if (xPoints == null || yPoints == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
     if (xPoints.length != yPoints.length) {
-      throw new ArrayLengthMissMatchException(
-        "xPoints and yPoints must be of same size."
-      );
+      throw new JplotlibError(ErrorConstants.UNMATCH_DIMENSION_LENGTH_ERROR);
     }
-
-    List<Coordinates> coordinates = setCoordinates(
-      xPoints,
-      yPoints,
-      AxisType.PLOT
-    );
-    this.seriesData.setCoordinates(coordinates);
-    ScatterGraph scatterGraph = new ScatterGraph(this.styleData);
-    return scatterGraph;
+    setAxisType(AxisType.PLOT);
+    setAxisParameters(xPoints, yPoints);
+    ScatterChart scatterChart = new ScatterChart(new CartesianData(xPoints, yPoints));
+    graphs.add(scatterChart);
+    isPlotable = true;
+    return scatterChart;
   }
 
-  // BAR GRAPH
+  // Bar Graph
 
   @Override
-  public final BarGraph bar(String[] xLabels, double[] yPoints) {
-    if (xLabels.length != yPoints.length) {
-      throw new ArrayLengthMissMatchException(
-        "yPoints and label must be of same size."
-      );
+  public BarGraph bar(String[] labels, double[] points) {
+    if (labels == null || points == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
     }
-    
-    List<Coordinates> coordinates = setCoordinates(
-      tempArr(yPoints),
-      yPoints,
-      AxisType.BAR
-    );
-    setLabel(xLabels);
-    this.seriesData.setCoordinates(coordinates);
-    BarGraph barGraph = new BarGraph(styleData);
+    if (labels.length != points.length) {
+      throw new JplotlibError(ErrorConstants.MISSMATCH_LABELDATA_LENGTH_ERROR);
+    }
+    setAxisType(AxisType.BAR);
+    setAxisParameters(labels, points, false);
+    BarGraph barGraph = new BarGraph(new GraphData(labels, points));
+    graphs.add(barGraph);
+    isPlotable = true;
     return barGraph;
   }
 
-  // PIE CHART
+  @Override
+  public BarGraph barh(String[] labels, double[] points) {
+    if (labels == null || points == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
+    if (labels.length != points.length) {
+      throw new JplotlibError(ErrorConstants.MISSMATCH_LABELDATA_LENGTH_ERROR);
+    }
+    setAxisType(AxisType.BAR);
+    setAxisParameters(labels, points, true);
+    BarGraph barGraph = new BarGraph(new GraphData(labels, points));
+    graphs.add(barGraph);
+    isPlotable = true;
+    return barGraph;
+  }
+
+  // Pie Chart
 
   @Override
-  public final PieChart pie(double[] dataPoints) {
-    this.seriesData.setAxisType(AxisType.PIE);
-    this.seriesData.setPieData(dataPoints);
-    PieChart pieChart = new PieChart(styleData);
+  public PieChart pie(double[] dataPoints) {
+    if (dataPoints == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
+    setAxisType(AxisType.PIE);
+    PieChart pieChart = new PieChart(new GraphData(null, dataPoints));
+    graphs.add(pieChart);
+    isPlotable = true;
     return pieChart;
   }
 
+  @Override
+  public PieChart pie(double[] dataPoints, String[] labels) {
+    if (dataPoints == null || labels == null) {
+      throw new JplotlibError(ErrorConstants.NULL_DATA_ERROR);
+    }
+    if (labels.length != dataPoints.length) {
+      throw new JplotlibError(ErrorConstants.MISSMATCH_LABELDATA_LENGTH_ERROR);
+    }
+    setAxisType(AxisType.PIE);
+    PieChart pieChart = new PieChart(new GraphData(labels, dataPoints));
+    graphs.add(pieChart);
+    isPlotable = true;
+    return pieChart;
+  }
 }
