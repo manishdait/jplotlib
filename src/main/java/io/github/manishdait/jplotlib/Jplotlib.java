@@ -27,6 +27,8 @@ package io.github.manishdait.jplotlib;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.manishdait.jplotlib.charts.area.AreaChart;
+import io.github.manishdait.jplotlib.charts.area.AreaChartOption;
 import io.github.manishdait.jplotlib.charts.bar.BarGraph;
 import io.github.manishdait.jplotlib.charts.bar.BarGraphOptions;
 import io.github.manishdait.jplotlib.charts.helper.Graph;
@@ -74,7 +76,8 @@ public final class Jplotlib implements
     LineChartOptions,
     ScatterChartOptions,
     BarGraphOptions,
-    PieChartOptions {
+    PieChartOptions,
+    AreaChartOption {
 
   protected Window window;
   protected Config axisConfiguration;
@@ -294,5 +297,15 @@ public final class Jplotlib implements
     graphs.add(pieChart);
     isPlotable = true;
     return pieChart;
+  }
+
+  @Override
+  public AreaChart areaPlot(double[] xPoints, double[] yPoints) {
+    setAxisType(AxisType.PLOT);
+    setAxisParameters(xPoints, yPoints);
+    AreaChart areaChart = new AreaChart(new CartesianData(xPoints, yPoints));
+    graphs.add(areaChart);
+    isPlotable = true;
+    return areaChart;
   }
 }

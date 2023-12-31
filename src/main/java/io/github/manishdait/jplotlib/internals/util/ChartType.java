@@ -56,6 +56,8 @@ public enum ChartType {
     /**
      * The PIE chart type represents a pie chart.
      */
-    PIE;
+    PIE,
+
+    AREA;
 
 }
