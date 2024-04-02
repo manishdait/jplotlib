@@ -299,6 +299,8 @@ public final class Jplotlib implements
     return pieChart;
   }
 
+  // Area Chart
+  
   @Override
   public AreaChart areaPlot(double[] xPoints, double[] yPoints) {
     setAxisType(AxisType.PLOT);
