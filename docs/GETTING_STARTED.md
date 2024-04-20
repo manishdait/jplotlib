@@ -9,6 +9,7 @@ Jplotlib is a Java library that allows you to create 2D line plots, scatter plot
 - [Creating a Scatter Plot](#creating-a-scatter-plot)
 - [Creating a Bar Graph](#creating-a-bar-graph)
 - [Creating a Pie Chart](#creating-a-pie-chart)
+- [CReating a Area PLot](#creating-a-area-plot)
 
 ## Installation
 
@@ -87,6 +88,19 @@ jplotlib.pie(dataPoints);
 ```
 
 More information about pie charts can be found in the [PIE.md](PIE.md) document.
+
+## Creating a Area Plot
+
+To create a 2D area plot using Jplotlib, follow the same steps as above, by using the `areaPlot()` method.
+
+```java
+double[] x = {1.0, 2.0, 3.0, 4.0};
+double[] y = {2.5, 5.1, 3.9, 6.2};
+jplotlib.areaPlot(x, y);
+```
+
+You can find more information about scatter plots in the [AREA_PLOT.md](AREA_PLOT.md) document.
+
 
 That's it! You now have the basic knowledge to create various types of visualizations using Jplotlib. Experiment with different data and customization options to create meaningful plots and charts.
 
