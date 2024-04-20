@@ -29,6 +29,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import io.github.manishdait.jplotlib.charts.area.AreaChart;
+import io.github.manishdait.jplotlib.charts.area.AreaChartPotter;
 import io.github.manishdait.jplotlib.charts.bar.BarGraph;
 import io.github.manishdait.jplotlib.charts.bar.BarGraphPlotter;
 import io.github.manishdait.jplotlib.charts.line.LineChart;
@@ -80,6 +82,10 @@ public class GraphPlotter extends JPanel {
 
                 else if (graphs.get(i) instanceof BarGraph) {
                     new BarGraphPlotter(g, this, axisConfiguration, (BarGraph) graphs.get(i), i).draw();
+                }
+
+                else if (graphs.get(i) instanceof AreaChart) {
+                    new AreaChartPotter(g, this, axisConfiguration, (AreaChart) graphs.get(i), i).draw();
                 }
             }
         }

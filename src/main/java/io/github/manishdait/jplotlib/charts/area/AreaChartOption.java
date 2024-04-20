@@ -22,45 +22,28 @@
  * SOFTWARE.
  */
 
-package io.github.manishdait.jplotlib.internals.util;
+package io.github.manishdait.jplotlib.charts.area;
 
 /**
- * The ChartType enum represents the types of charts that can be created using
- * Jplotlib.
- * 
- * This enum provides four values for different chart types: LINE, SCATTER, BAR,
- * and PIE. Each value corresponds to a specific type of chart that can be
- * generated using Jplotlib.
- * 
- * The ChartType enum is used to specify the type of chart to be created in
- * Jplotlib.
+ * The AreaChartOptions interface defines methods related to creating area
+ * charts.
+ * Implementations of this interface are expected to provide functionality for
+ * generating
+ * AreaChart objects based on given x and y data points.
  * 
  */
-public enum ChartType {
+public interface AreaChartOption {
 
     /**
-     * The LINE chart type represents a line plot.
+     * Creates a AreaChart with the provided x and y data points.
+     *
+     * @param xPoints
+     *            An array of double values representing the x-axis data points.
+     * @param yPoints
+     *            An array of double values representing the y-axis data points.
+     * @return AreaChart An object representing a area chart constructed using
+     *         the given data.
      */
-    LINE,
-
-    /**
-     * The SCATTER chart type represents a scatter plot.
-     */
-    SCATTER,
-
-    /**
-     * The BAR chart type represents a bar chart.
-     */
-    BAR,
-
-    /**
-     * The PIE chart type represents a pie chart.
-     */
-    PIE,
-
-    /**
-     * The AREA chart type represents a area chart.
-     */
-    AREA;
+    AreaChart areaPlot(double[] xPoints, double[] yPoints);
 
 }

@@ -10,7 +10,7 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -21,46 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package io.github.manishdait.jplotlib.charts.area;
 
-package io.github.manishdait.jplotlib.internals.util;
+import java.awt.Color;
 
 /**
- * The ChartType enum represents the types of charts that can be created using
- * Jplotlib.
- * 
- * This enum provides four values for different chart types: LINE, SCATTER, BAR,
- * and PIE. Each value corresponds to a specific type of chart that can be
- * generated using Jplotlib.
- * 
- * The ChartType enum is used to specify the type of chart to be created in
- * Jplotlib.
+ * The AreaChartStyle class holds style properties for configuring the
+ * appearance of a area chart.
+ * It includes settings for colors, and alpha.
  * 
  */
-public enum ChartType {
+public class AreaChartStyle {
+
+    private Color color;
+    private float alpha;
 
     /**
-     * The LINE chart type represents a line plot.
+     * Constructs a AreaChartStyle with default style settings.
      */
-    LINE,
+    public AreaChartStyle () {
+        this.color = null;
+        this.alpha = 1F;
+    }
 
-    /**
-     * The SCATTER chart type represents a scatter plot.
-     */
-    SCATTER,
+    public Color getColor() {
+        return color;
+    }
 
-    /**
-     * The BAR chart type represents a bar chart.
-     */
-    BAR,
+    public void setColor(Color color) {
+        this.color = color;
+    }
 
-    /**
-     * The PIE chart type represents a pie chart.
-     */
-    PIE,
+    public float getAlpha() {
+        return alpha;
+    }
 
-    /**
-     * The AREA chart type represents a area chart.
-     */
-    AREA;
+    public void setAlpha(float alpha) {
+        this.alpha = alpha;
+    }
 
 }
